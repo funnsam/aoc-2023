@@ -25,7 +25,7 @@ pub fn task_1(file: String) {
 }
 
 pub fn task_2(file: String) {
-    task_1(
+    task_1( // some reddit suggestion
         file.replace("one"  , "o1e")
             .replace("two"  , "t2o")
             .replace("three", "t3e")
