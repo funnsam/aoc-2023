@@ -28,7 +28,7 @@ struct Arg {
     file: String,
 }
 
-mod day_01; mod day_02;
+mod day_01; mod day_02; mod day_03;
 
 fn main() {
     let args = Arg::parse();
@@ -40,6 +40,8 @@ fn main() {
         (01, 2) => day_01::task_2(file),
         (02, 1) => day_02::task_1(file),
         (02, 2) => day_02::task_2(file),
+        (03, 1) => day_03::task_1(file),
+        (03, 2) => day_03::task_2(file),
         _ => panic!("no such day and task!"),
     }
 }
