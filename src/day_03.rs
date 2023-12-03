@@ -8,7 +8,7 @@ pub fn task_1(file: String) {
         'a: while let Some((xi, i)) = x.next() {
             if i.is_ascii_digit() {
                 let mut end = xi;
-                while let Some((_, j)) = x.next() {
+                for (_, j) in x.by_ref() {
                     if j.is_ascii_digit() {
                         end += 1;
                     } else {
@@ -61,7 +61,7 @@ pub fn task_2(file: String) {
         'a: while let Some((xi, i)) = x.next() {
             if i.is_ascii_digit() {
                 let mut end = xi;
-                while let Some((_, j)) = x.next() {
+                for (_, j) in x.by_ref() {
                     if j.is_ascii_digit() {
                         end += 1;
                     } else {
@@ -103,13 +103,11 @@ pub fn task_2(file: String) {
                     put!(&y[xi-1], (xi-1, yi));
                 }
                 if end+1 < y.len() {
-                    put!(&y[end+1], (xi+1, yi));
+                    put!(&y[end+1], (end+1, yi));
                 }
             }
         }
     }
-
-    println!("{gears:?}");
 
     report!("{sum}");
 }
