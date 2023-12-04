@@ -1,4 +1,4 @@
-pub fn task_1(file: String) {
+pub fn task_1(file: &str) -> String {
     let mut sum = 0;
 
     for l in file.lines() {
@@ -24,10 +24,10 @@ pub fn task_1(file: String) {
         } else { 0 };
     }
 
-    report!("{sum}");
+    sum.to_string()
 }
 
-pub fn task_2(file: String) {
+pub fn task_2(file: &str) -> String {
     use std::collections::HashMap;
 
     let mut copies = HashMap::new();
@@ -65,5 +65,5 @@ pub fn task_2(file: String) {
         sum += copies.get(&i).unwrap_or(&0) + 1;
     }
 
-    report!("{sum}");
+    sum.to_string()
 }

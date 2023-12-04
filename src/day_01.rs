@@ -1,4 +1,4 @@
-pub fn task_1(file: String) {
+pub fn task_1(file: &str) -> String {
     let mut sum = 0;
     for l in file.lines() {
         let mut this = 0;
@@ -21,12 +21,13 @@ pub fn task_1(file: String) {
         sum += this
     }
 
-    report!("{sum}");
+    sum.to_string()
 }
 
-pub fn task_2(file: String) {
+pub fn task_2(file: &str) -> String {
     task_1( // some reddit suggestion
-        file.replace("one"  , "o1e")
+        &file
+            .replace("one"  , "o1e")
             .replace("two"  , "t2o")
             .replace("three", "t3e")
             .replace("four" , "f4r")

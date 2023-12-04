@@ -1,4 +1,4 @@
-pub fn task_1(file: String) {
+pub fn task_1(file: &str) -> String {
     let mut sum = 0;
 
     'games: for (i, game) in file.lines().enumerate() {
@@ -20,10 +20,10 @@ pub fn task_1(file: String) {
         sum += i+1;
     }
 
-    report!("{sum}");
+    sum.to_string()
 }
 
-pub fn task_2(file: String) {
+pub fn task_2(file: &str) -> String {
     let mut sum = 0;
 
     for game in file.lines() {
@@ -49,5 +49,5 @@ pub fn task_2(file: String) {
         sum += r*g*b;
     }
 
-    report!("{sum}");
+    sum.to_string()
 }

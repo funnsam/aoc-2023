@@ -12,12 +12,7 @@
 )]
 
 use clap::Parser;
-
-macro_rules! report {
-    ($($fmt: tt)*) => {
-        println!("\x1b[1;32mAns:\x1b[0m {}", format!($($fmt)*));
-    };
-}
+use cpu_time::*;
 
 #[derive(Parser)]
 struct Arg {
@@ -26,11 +21,14 @@ struct Arg {
 
     #[clap(short, long, default_value = "input.txt")]
     file: String,
+
+    #[clap(short, long)]
+    benchmark: Option<usize>,
 }
 
 mod day_01; mod day_02; mod day_03; mod day_04;
 
-const TASKS: &[&'static dyn Fn(String)] = &[
+const TASKS: &[&'static dyn Fn(&str) -> String] = &[
     &day_01::task_1, &day_01::task_2,
     &day_02::task_1, &day_02::task_2,
     &day_03::task_1, &day_03::task_2,
@@ -41,5 +39,16 @@ fn main() {
     let args = Arg::parse();
     let file = std::fs::read_to_string(args.file).unwrap();
 
-    TASKS[args.day * 2 + args.nth - 3](file);
+    let task = TASKS[args.day * 2 + args.nth - 3];
+    let ans = task(&file);
+    println!("\x1b[1;92mAns:\x1b[0m {}", ans);
+
+    if let Some(n) = args.benchmark {
+        println!("\x1b[90mBenchmarking...\x1b[0m");
+        let s = ProcessTime::now();
+        for _ in 0..n {
+            task(&file);
+        }
+        println!("\x1b[1;94mAverage time:\x1b[0m {:.03}μs", s.elapsed().as_secs_f64() / 1e-6 / n as f64);
+    }
 }

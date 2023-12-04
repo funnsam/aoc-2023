@@ -1,4 +1,4 @@
-pub fn task_1(file: String) {
+pub fn task_1(file: &str) -> String {
     let mut sum = 0;
 
     let file = file.lines().map(|a| a.chars().collect()).collect::<Vec<Vec<char>>>();
@@ -44,10 +44,10 @@ pub fn task_1(file: String) {
         }
     }
 
-    report!("{sum}");
+    sum.to_string()
 }
 
-pub fn task_2(file: String) {
+pub fn task_2(file: &str) -> String {
     use std::collections::HashMap;
 
     let mut sum = 0;
@@ -109,5 +109,5 @@ pub fn task_2(file: String) {
         }
     }
 
-    report!("{sum}");
+    sum.to_string()
 }
