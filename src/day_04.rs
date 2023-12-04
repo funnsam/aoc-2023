@@ -1,26 +1,24 @@
 pub fn task_1(file: &str) -> String {
     let mut sum = 0;
 
-    for l in file.lines() {
-        let l = l.split_once(": ").unwrap().1;
-        let mut m = false;
+    let file = file.as_bytes();
 
-        let mut winning: Vec<usize> = Vec::new();
+    for l in file.chunks(117).map(|a| &a[10..]) {
+        let mut winning: Vec<bool> = vec![false; 100];
         let mut matches = 0;
-        for i in l.split_whitespace() {
-            if !m {
-                if i == "|" {
-                    m = true;
-                } else {
-                    winning.push(i.parse().unwrap());
-                }
-            } else if winning.contains(&i.parse().unwrap()) {
-                matches += 1;
-            }
+
+        for i in 0..10 {
+            let i = &l[3 * i..=1 + 3 * i];
+            winning[(i[0].saturating_sub(0x30) as usize) * 10 + (i[1] as usize - 0x30)] = true;
+        }
+
+        for i in 0..25 {
+            let i = &l[32 + 3 * i..=33 + 3 * i];
+            matches += winning[(i[0].saturating_sub(0x30) as usize) * 10 + (i[1] as usize - 0x30)] as usize;
         }
 
         sum += if matches != 0 {
-            2_usize.pow(matches-1)
+            1 << (matches-1)
         } else { 0 };
     }
 
@@ -28,41 +26,36 @@ pub fn task_1(file: &str) -> String {
 }
 
 pub fn task_2(file: &str) -> String {
-    use std::collections::HashMap;
+    let file = file.as_bytes();
 
-    let mut copies = HashMap::new();
-    let mut max = 0;
+    let max_cards = file.len() / 117;
 
-    for (i, l) in file.lines().enumerate() {
-        max = i+1;
+    let mut copies = vec![1; max_cards];
 
-        let l = l.split_once(": ").unwrap().1;
-        let mut m = false;
-
-        let mut winning: Vec<usize> = Vec::new();
+    for (i, l) in file.chunks(117).map(|a| &a[10..]).enumerate() {
+        let mut winning = vec![false; 100];
         let mut matches = 0;
-        for i in l.split_whitespace() {
-            if !m {
-                if i == "|" {
-                    m = true;
-                } else {
-                    winning.push(i.parse().unwrap());
-                }
-            } else if winning.contains(&i.parse().unwrap()) {
-                matches += 1;
-            }
+
+        for i in 0..10 {
+            let i = &l[3 * i..=1 + 3 * i];
+            winning[(i[0].saturating_sub(0x30) as usize) * 10 + (i[1] as usize - 0x30)] = true;
         }
 
-        let n = copies.get(&i).unwrap_or(&0)+1;
+        for i in 0..25 {
+            let i = &l[32 + 3 * i..=33 + 3 * i];
+            matches += winning[(i[0].saturating_sub(0x30) as usize) * 10 + (i[1] as usize - 0x30)] as usize;
+        }
+
+        let n = copies[i];
         for m in 1..=matches {
-            copies.entry(i+m).and_modify(|a| *a += n).or_insert(n);
+            copies[m+i] += n;
         }
     }
 
     let mut sum = 0;
 
-    for i in 1..=max {
-        sum += copies.get(&i).unwrap_or(&0) + 1;
+    for i in copies {
+        sum += i;
     }
 
     sum.to_string()
