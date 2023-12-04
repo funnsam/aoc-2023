@@ -14,10 +14,8 @@ pub fn task_1(file: String) {
                 } else {
                     winning.push(i.parse().unwrap());
                 }
-            } else {
-                if winning.contains(&i.parse().unwrap()) {
-                    matches += 1;
-                }
+            } else if winning.contains(&i.parse().unwrap()) {
+                matches += 1;
             }
         }
 
@@ -50,10 +48,8 @@ pub fn task_2(file: String) {
                 } else {
                     winning.push(i.parse().unwrap());
                 }
-            } else {
-                if winning.contains(&i.parse().unwrap()) {
-                    matches += 1;
-                }
+            } else if winning.contains(&i.parse().unwrap()) {
+                matches += 1;
             }
         }
 
