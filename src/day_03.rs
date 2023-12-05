@@ -1,44 +1,44 @@
 pub fn task_1(file: &str) -> String {
     let mut sum = 0;
 
-    let file = file.lines().map(|a| a.chars().collect()).collect::<Vec<Vec<char>>>();
+    let file = file.as_bytes().chunks(141).map(|a| &a[0..140]).collect::<Vec<&[u8]>>();
 
     for (yi, y) in file.iter().enumerate() {
         let mut x = y.iter().enumerate();
         'a: while let Some((xi, i)) = x.next() {
             if i.is_ascii_digit() {
-                let mut end = xi;
-                for (_, j) in x.by_ref() {
-                    if j.is_ascii_digit() {
-                        end += 1;
-                    } else {
+                let mut end = 139;
+                for (i, j) in x.by_ref() {
+                    if !j.is_ascii_digit() {
+                        end = i-1;
                         break;
                     }
                 }
+
                 macro_rules! put {
                     ($i: expr) => {
                         let i = $i;
-                        if *i != '.' && !i.is_ascii_digit() {
-                            sum += (file[yi][xi..=end].to_vec()).iter().collect::<String>().parse::<usize>().unwrap();
+                        if i != b'.' && !i.is_ascii_digit() {
+                            sum += unsafe { std::str::from_utf8_unchecked(&file[yi][xi..=end]) }.parse::<usize>().unwrap();
                             continue 'a;
                         }
                     };
                 }
                 if yi > 0 {
-                    for i in file[yi-1].iter().skip(xi.saturating_sub(1)).take(end - xi + (xi != 0) as usize + 2) {
-                        put!(i);
+                    for i in file[yi-1][xi.saturating_sub(1)..(end + 2).min(140)].into_iter() {
+                        put!(*i);
                     }
                 }
                 if yi+1 < file.len() {
-                    for i in file[yi+1].iter().skip(xi.saturating_sub(1)).take(end - xi + (xi != 0) as usize + 2) {
-                        put!(i);
+                    for i in file[yi+1][xi.saturating_sub(1)..(end + 2).min(140)].into_iter() {
+                        put!(*i);
                     }
                 }
                 if xi > 0 {
-                    put!(&y[xi-1]);
+                    put!(y[xi-1]);
                 }
                 if end+1 < y.len() {
-                    put!(&y[end+1]);
+                    put!(y[end+1]);
                 }
             }
         }
@@ -54,26 +54,26 @@ pub fn task_2(file: &str) -> String {
 
     let mut gears = HashMap::new();
 
-    let file = file.lines().map(|a| a.chars().collect()).collect::<Vec<Vec<char>>>();
+    let file = file.as_bytes().chunks(141).map(|a| &a[0..140]).collect::<Vec<&[u8]>>();
 
     for (yi, y) in file.iter().enumerate() {
         let mut x = y.iter().enumerate();
         'a: while let Some((xi, i)) = x.next() {
             if i.is_ascii_digit() {
-                let mut end = xi;
-                for (_, j) in x.by_ref() {
-                    if j.is_ascii_digit() {
-                        end += 1;
-                    } else {
+                let mut end = 139;
+                for (i, j) in x.by_ref() {
+                    if !j.is_ascii_digit() {
+                        end = i-1;
                         break;
                     }
                 }
+
                 macro_rules! put {
                     ($i: expr, $p: expr) => {
                         let i = $i;
                         let p = $p;
-                        if *i == '*' {
-                            let num = (file[yi][xi..=end].to_vec()).iter().collect::<String>().parse::<usize>().unwrap();
+                        if i == b'*' {
+                            let num = unsafe { std::str::from_utf8_unchecked(&file[yi][xi..=end]) }.parse::<usize>().unwrap();
                             if let Some((j, g)) = gears.get(&p) {
                                 if !j {
                                     sum += g * num;
@@ -90,20 +90,20 @@ pub fn task_2(file: &str) -> String {
                     };
                 }
                 if yi > 0 {
-                    for (xj, i) in file[yi-1].iter().enumerate().skip(xi.saturating_sub(1)).take(end - xi + (xi != 0) as usize + 2) {
-                        put!(i, (xj, yi-1));
+                    for (xj, i) in file[yi-1][xi.saturating_sub(1)..(end + 2).min(140)].into_iter().enumerate() {
+                        put!(*i, (xi.saturating_sub(1)+xj, yi-1));
                     }
                 }
                 if yi+1 < file.len() {
-                    for (xj, i) in file[yi+1].iter().enumerate().skip(xi.saturating_sub(1)).take(end - xi + (xi != 0) as usize + 2) {
-                        put!(i, (xj, yi+1));
+                    for (xj, i) in file[yi+1][xi.saturating_sub(1)..(end + 2).min(140)].into_iter().enumerate() {
+                        put!(*i, (xi.saturating_sub(1)+xj, yi+1));
                     }
                 }
                 if xi > 0 {
-                    put!(&y[xi-1], (xi-1, yi));
+                    put!(y[xi-1], (xi-1, yi));
                 }
                 if end+1 < y.len() {
-                    put!(&y[end+1], (end+1, yi));
+                    put!(y[end+1], (end+1, yi));
                 }
             }
         }
