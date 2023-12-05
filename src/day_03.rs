@@ -25,12 +25,12 @@ pub fn task_1(file: &str) -> String {
                     };
                 }
                 if yi > 0 {
-                    for i in file[yi-1][xi.saturating_sub(1)..(end + 2).min(140)].into_iter() {
+                    for i in file[yi-1][xi.saturating_sub(1)..(end + 2).min(140)].iter() {
                         put!(*i);
                     }
                 }
                 if yi+1 < file.len() {
-                    for i in file[yi+1][xi.saturating_sub(1)..(end + 2).min(140)].into_iter() {
+                    for i in file[yi+1][xi.saturating_sub(1)..(end + 2).min(140)].iter() {
                         put!(*i);
                     }
                 }
@@ -90,12 +90,12 @@ pub fn task_2(file: &str) -> String {
                     };
                 }
                 if yi > 0 {
-                    for (xj, i) in file[yi-1][xi.saturating_sub(1)..(end + 2).min(140)].into_iter().enumerate() {
+                    for (xj, i) in file[yi-1][xi.saturating_sub(1)..(end + 2).min(140)].iter().enumerate() {
                         put!(*i, (xi.saturating_sub(1)+xj, yi-1));
                     }
                 }
                 if yi+1 < file.len() {
-                    for (xj, i) in file[yi+1][xi.saturating_sub(1)..(end + 2).min(140)].into_iter().enumerate() {
+                    for (xj, i) in file[yi+1][xi.saturating_sub(1)..(end + 2).min(140)].iter().enumerate() {
                         put!(*i, (xi.saturating_sub(1)+xj, yi+1));
                     }
                 }
