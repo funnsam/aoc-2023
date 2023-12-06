@@ -42,8 +42,8 @@ pub fn task_2(file: &str) -> String {
     // x will be the starting / ending point
 
     let a = -1.0;
-    let b = t as f32;
-    let c = -(d as f32);
+    let b = t as f64;
+    let c = -(d as f64);
     let d = (b*b - 4.0*a*c).sqrt();
     let s = (-b + d) / 2.0*a;
     let e = (-b - d) / 2.0*a;
