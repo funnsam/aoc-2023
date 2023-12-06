@@ -1,12 +1,20 @@
 pub fn task_1(file: &str) -> String {
     let mut file = file.lines();
-    let seeds = file.next().unwrap().split_whitespace().skip(1).map(|a| a.parse().unwrap()).collect::<Vec<usize>>();
+    let seeds = file.next().unwrap().split_whitespace().skip(1).map(|a| a.parse().unwrap());
 
     file.next();
     file.next();
 
     let mut map_at = 0;
-    let mut maps = vec![vec![]; 7];
+    let mut maps = [
+        Vec::with_capacity(50),
+        Vec::with_capacity(50),
+        Vec::with_capacity(50),
+        Vec::with_capacity(50),
+        Vec::with_capacity(50),
+        Vec::with_capacity(50),
+        Vec::with_capacity(50),
+    ];
 
     while let Some(l) = file.next() {
         if l.is_empty() {
@@ -14,19 +22,22 @@ pub fn task_1(file: &str) -> String {
             file.next();
         } else {
             let mut s = l.split_whitespace();
-            let a = |a: &mut std::str::SplitWhitespace| a.next().unwrap().parse::<usize>().unwrap();
-            maps[map_at].push((a(&mut s), a(&mut s), a(&mut s)));
+            let mut a = || s.next().unwrap().parse::<usize>().unwrap();
+            let b = a();
+            let c = a();
+            let n = a();
+            maps[map_at].push((b, c..=c+n));
         }
     }
 
     let mut min = usize::MAX;
 
-    for s in seeds.into_iter() {
+    for s in seeds {
         let mut current = s;
         'maps: for i in maps.iter() {
-            for (j, k, l) in i.iter() {
-                if (*k..k+l).contains(&current) {
-                    current = j + (current - k);
+            for (j, k) in i.iter() {
+                if k.contains(&current) {
+                    current = j + (current - k.start());
                     continue 'maps;
                 }
             }
@@ -45,14 +56,22 @@ pub fn task_2(file: &str) -> String {
         .skip(1)
         .map(|a| a.parse().unwrap())
         .array_chunks()
-        .map(|a: [usize; 2]| [a[0], a[0]+a[1]-1])
+        .map(|a: [usize; 2]| [a[0], a[0]+a[1]])
         .collect::<Vec<[usize; 2]>>();
 
     file.next();
     file.next();
 
     let mut map_at = 0;
-    let mut maps = vec![vec![]; 7];
+    let mut maps = [
+        Vec::with_capacity(50),
+        Vec::with_capacity(50),
+        Vec::with_capacity(50),
+        Vec::with_capacity(50),
+        Vec::with_capacity(50),
+        Vec::with_capacity(50),
+        Vec::with_capacity(50),
+    ];
 
     while let Some(l) = file.next() {
         if l.is_empty() {
@@ -60,8 +79,11 @@ pub fn task_2(file: &str) -> String {
             file.next();
         } else {
             let mut s = l.split_whitespace();
-            let a = |a: &mut std::str::SplitWhitespace| a.next().unwrap().parse::<usize>().unwrap();
-            maps[map_at].push((a(&mut s), a(&mut s), a(&mut s)));
+            let mut a = || s.next().unwrap().parse::<usize>().unwrap();
+            let b = a();
+            let c = a();
+            let n = a();
+            maps[map_at].push((b, c..=c+n));
         }
     }
 
@@ -91,9 +113,9 @@ pub fn task_2(file: &str) -> String {
         for s2 in s[0]..s[1] {
             let mut current = s2;
             'maps: for i in maps.iter() {
-                for (j, k, l) in i.iter() {
-                    if (*k..k+l).contains(&current) {
-                        current = j + (current - k);
+                for (j, k) in i.iter() {
+                    if k.contains(&current) {
+                        current = j + (current - k.start());
                         continue 'maps;
                     }
                 }
