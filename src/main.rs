@@ -31,7 +31,7 @@ struct Arg {
 }
 
 mod day_01; mod day_02; mod day_03; mod day_04;
-mod day_05; mod day_06;
+mod day_05; mod day_06; mod day_07;
 
 const TASKS: &[&'static dyn Fn(&str) -> String] = &[
     &day_01::task_1, &day_01::task_2,
@@ -40,6 +40,7 @@ const TASKS: &[&'static dyn Fn(&str) -> String] = &[
     &day_04::task_1, &day_04::task_2,
     &day_05::task_1, &day_05::task_2,
     &day_06::task_1, &day_06::task_2,
+    &day_07::task_1, &day_07::task_2,
 ];
 
 fn main() {
