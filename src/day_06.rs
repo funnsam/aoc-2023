@@ -1,3 +1,17 @@
+fn parse_ignore_until_at(i: &str, u: u8, k: usize) -> (usize, usize) {
+    let mut r = 0;
+    let mut e = 0;
+
+    for (j, b) in i.as_bytes().into_iter().enumerate().skip(k) {
+        if *b == u { e = j; break; }
+        if b.is_ascii_digit() {
+            r = r * 10 + (*b as usize - 0x30)
+        }
+    }
+
+    (r, e)
+}
+
 pub fn task_1(file: &str) -> String {
     let mut product = 1;
 
@@ -5,8 +19,8 @@ pub fn task_1(file: &str) -> String {
 
     for (t, d) in t.split_whitespace().zip(d.split_whitespace()).skip(1) {
         let mut sum = 0;
-        let t = t.parse::<usize>().unwrap();
-        let d = d.parse::<usize>().unwrap();
+        let (t, _) = parse_ignore_until_at(t, b'\0', 0);
+        let (d, _) = parse_ignore_until_at(d, b'\0', 0);
 
         for h in 1..t {
             let b = h * (t-h) > d;
@@ -21,13 +35,8 @@ pub fn task_1(file: &str) -> String {
 }
 
 pub fn task_2(file: &str) -> String {
-    let file = file.replace(' ', "");
-    let (t, d) = file.split_once('\n').unwrap();
-    let t = t.split_once(':').unwrap().1;
-    let d = d.split_once(':').unwrap().1;
-
-    let t = t.parse::<usize>().unwrap();
-    let d = d.trim_end().parse::<usize>().unwrap();
+    let (t, n) = parse_ignore_until_at(file, b'\n', 0);
+    let (d, _) = parse_ignore_until_at(file, b'\n', n);
 
     // x * (t-x) = d
     // xt - x² - d = 0

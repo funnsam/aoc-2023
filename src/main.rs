@@ -60,6 +60,7 @@ fn main() {
         for _ in 0..n {
             task(&file);
         }
-        println!("\x1b[1;94mAverage time:\x1b[0m {:.03}μs", s.elapsed().as_secs_f64() / 1e-6 / n as f64);
+        let e = s.elapsed();
+        println!("\x1b[1;94mAverage time:\x1b[0m {:.03}μs / {:.01}ns", e.as_secs_f64() / 1e-6 / n as f64, e.as_secs_f64() / 1e-9 / n as f64);
     }
 }
