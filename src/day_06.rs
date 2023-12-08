@@ -9,7 +9,7 @@ fn parse_ignore_until_at(i: &str, u: u8, k: usize) -> (usize, usize) {
         }
     }
 
-    (r, e)
+    (r, e+1)
 }
 
 pub fn task_1(file: &str) -> String {
@@ -54,8 +54,8 @@ pub fn task_2(file: &str) -> String {
     let b = t as f64;
     let c = -(d as f64);
     let d = (b*b - 4.0*a*c).sqrt();
-    let s = (-b + d) / 2.0*a;
-    let e = (-b - d) / 2.0*a;
+    let s = (-b + d) / (2.0*a);
+    let e = (-b - d) / (2.0*a);
 
     (e.floor() as usize - s.floor() as usize).to_string()
 }

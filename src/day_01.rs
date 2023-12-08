@@ -16,8 +16,6 @@ pub fn task_1(file: &str) -> String {
             }
         }
 
-        println!("{this}");
-
         sum += this
     }
 
