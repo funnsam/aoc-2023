@@ -130,4 +130,6 @@ pub fn task_2(file: &str) -> String {
     traverse(s, (s.0+1, s.1), 1, &g, &mut g_idx);
     traverse(s, (s.0, s.1-1), 1, &g, &mut g_idx);
     traverse(s, (s.0, s.1+1), 1, &g, &mut g_idx);
+
+    todo!()
 }
