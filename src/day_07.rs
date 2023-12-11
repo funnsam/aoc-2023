@@ -21,7 +21,7 @@ enum HandCase {
     FiveOfAKind,
 }
 
-pub fn task_1(file: &str) -> String {
+pub fn part_1(file: &str) -> String {
     let mut hands = file
         .lines()
         .map(|a| {
@@ -80,7 +80,7 @@ pub fn task_1(file: &str) -> String {
     total.to_string()
 }
 
-pub fn task_2(file: &str) -> String {
+pub fn part_2(file: &str) -> String {
     let mut hands = file
         .lines()
         .map(|a| {

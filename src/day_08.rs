@@ -1,4 +1,4 @@
-pub fn task_1(file: &str) -> String {
+pub fn part_1(file: &str) -> String {
     use std::collections::HashMap;
 
     let (steps, route_raw) = file.split_once("\n\n").unwrap();
@@ -29,7 +29,7 @@ pub fn task_1(file: &str) -> String {
     }
 }
 
-pub fn task_2(file: &str) -> String {
+pub fn part_2(file: &str) -> String {
     use std::collections::HashMap;
 
     let (steps, route_raw) = file.split_once("\n\n").unwrap();

@@ -1,4 +1,4 @@
-pub fn task_1(file: &str) -> String {
+pub fn part_1(file: &str) -> String {
     let mut sum = 0;
 
     let file = file.as_bytes().chunks(141).map(|a| &a[0..140]).collect::<Vec<&[u8]>>();
@@ -47,7 +47,7 @@ pub fn task_1(file: &str) -> String {
     sum.to_string()
 }
 
-pub fn task_2(file: &str) -> String {
+pub fn part_2(file: &str) -> String {
     use std::collections::HashMap;
 
     let mut sum = 0;

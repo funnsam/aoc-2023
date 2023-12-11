@@ -12,7 +12,7 @@ fn parse_ignore_until_at(i: &str, u: u8, k: usize) -> (usize, usize) {
     (r, e+1)
 }
 
-pub fn task_1(file: &str) -> String {
+pub fn part_1(file: &str) -> String {
     let mut product = 1;
 
     let (t, d) = file.split_once('\n').unwrap();
@@ -34,7 +34,7 @@ pub fn task_1(file: &str) -> String {
     product.to_string()
 }
 
-pub fn task_2(file: &str) -> String {
+pub fn part_2(file: &str) -> String {
     let (t, n) = parse_ignore_until_at(file, b'\n', 0);
     let (d, _) = parse_ignore_until_at(file, b'\n', n);
 

@@ -1,4 +1,4 @@
-pub fn task_1(file: &str) -> String {
+pub fn part_1(file: &str) -> String {
     let g = file.lines().map(|a| a.as_bytes()).collect::<Vec<&[u8]>>();
     let mut s = (0, 0);
 
@@ -66,7 +66,7 @@ pub fn task_1(file: &str) -> String {
     (g_idx.iter().flatten().max().unwrap() / 2).to_string()
 }
 
-pub fn task_2(file: &str) -> String {
+pub fn part_2(file: &str) -> String {
     let g = file.lines().map(|a| a.as_bytes()).collect::<Vec<&[u8]>>();
     let mut s = (0, 0);
 

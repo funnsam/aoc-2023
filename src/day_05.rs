@@ -1,4 +1,4 @@
-pub fn task_1(file: &str) -> String {
+pub fn part_1(file: &str) -> String {
     let mut file = file.lines();
     let seeds = file.next().unwrap().split_whitespace().skip(1).map(|a| a.parse().unwrap());
 
@@ -49,7 +49,7 @@ pub fn task_1(file: &str) -> String {
     min.to_string()
 }
 
-pub fn task_2(file: &str) -> String {
+pub fn part_2(file: &str) -> String {
     let mut file = file.lines();
     let mut seeds = file.next().unwrap()
         .split_whitespace()

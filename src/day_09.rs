@@ -1,4 +1,4 @@
-pub fn task_1(file: &str) -> String {
+pub fn part_1(file: &str) -> String {
     let mut sum = 0;
 
     let mut nums = Vec::with_capacity(100);
@@ -27,7 +27,7 @@ pub fn task_1(file: &str) -> String {
     sum.to_string()
 }
 
-pub fn task_2(file: &str) -> String {
+pub fn part_2(file: &str) -> String {
     let mut sum = 0;
 
     let mut nums = Vec::with_capacity(100);
