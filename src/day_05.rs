@@ -102,7 +102,7 @@ pub fn part_2(file: &str) -> String {
     for range in seeds.iter().skip(1) {
         if now[1] + 1 < range[0] {
             new_seeds.push([now[0], now[1]]);
-            now = range.clone();
+            now = *range;
         } else {
             now[1] = now[1].max(range[1]);
         }

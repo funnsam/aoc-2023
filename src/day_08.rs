@@ -48,10 +48,11 @@ pub fn part_2(file: &str) -> String {
     let sl = steps.len();
 
     // good time to parallelise
+    // later: no it isnt
     for g in route
         .iter()
         .filter(|(a, _)| (**a >> 16) as u8 == b'A')
-        .map(|(a, _)| a.clone()) {
+        .map(|(a, _)| *a) {
 
         let mut count = 0;
         let mut current = g;

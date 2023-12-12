@@ -15,7 +15,7 @@ pub fn part_1(file: &str) -> String {
     // expand x axis
     let mut e = Vec::new();
     'expand: for xi in 0..g[0].len() {
-        for y in 0..g.len() { if g[y][xi] != b'.' { continue 'expand; } }
+        for y in g.iter() { if y[xi] != b'.' { continue 'expand; } }
         e.push(xi);
     }
 
@@ -36,8 +36,7 @@ pub fn part_1(file: &str) -> String {
 
     let mut sum = 0;
     for (ai, a) in galaxies.iter().enumerate() {
-        for bi in 0..ai {
-            let b = &galaxies[bi];
+        for b in galaxies.iter().take(ai) {
             sum += (a.0 as isize - b.0 as isize).abs() + (a.1 as isize - b.1 as isize).abs();
         }
     }
@@ -58,7 +57,7 @@ pub fn part_2(file: &str) -> String {
     // expand x axis
     let mut ex = Vec::new();
     'expand: for xi in 0..g[0].len() {
-        for y in 0..g.len() { if g[y][xi] != b'.' { continue 'expand; } }
+        for y in g.iter() { if y[xi] != b'.' { continue 'expand; } }
         ex.push(xi);
     }
 
@@ -73,8 +72,7 @@ pub fn part_2(file: &str) -> String {
 
     let mut sum = 0;
     for (ai, a) in galaxies.iter().enumerate() {
-        for bi in 0..ai {
-            let b = &galaxies[bi];
+        for b in galaxies.iter().take(ai) {
             let cx = ex.iter().filter(|c| (a.0.min(b.0)..a.0.max(b.0)).contains(c)).count();
             let cy = ey.iter().filter(|c| (a.1.min(b.1)..a.1.max(b.1)).contains(c)).count();
             sum += ((a.0 as isize - b.0 as isize).abs() + (a.1 as isize - b.1 as isize).abs()) as usize + (cx + cy) * 999_999;

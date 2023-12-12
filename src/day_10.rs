@@ -81,7 +81,7 @@ pub fn part_2(file: &str) -> String {
 
     let mut g_idx = vec![vec![false; g[0].len()]; g.len()];
 
-    fn connects(c: u8) -> &'static [(isize, isize)] {
+    const fn connects(c: u8) -> &'static [(isize, isize)] {
         match c {
             b'|' => &[(0, -1), (0, 1)],
             b'-' => &[(-1, 0), (1, 0)],

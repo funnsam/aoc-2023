@@ -2,7 +2,7 @@ fn parse_ignore_until_at(i: &str, u: u8, k: usize) -> (usize, usize) {
     let mut r = 0;
     let mut e = 0;
 
-    for (j, b) in i.as_bytes().into_iter().enumerate().skip(k) {
+    for (j, b) in i.as_bytes().iter().enumerate().skip(k) {
         if *b == u { e = j; break; }
         if b.is_ascii_digit() {
             r = r * 10 + (*b as usize - 0x30)
@@ -53,7 +53,7 @@ pub fn part_2(file: &str) -> String {
     let a = -1.0;
     let b = t as f64;
     let c = -(d as f64);
-    let d = (b*b - 4.0*a*c).sqrt();
+    let d = b.mul_add(b, -(4.0*a * c)).sqrt();
     let s = (-b + d) / (2.0*a);
     let e = (-b - d) / (2.0*a);
 

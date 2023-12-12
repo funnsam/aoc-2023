@@ -34,7 +34,7 @@ pub fn part_1(file: &str) -> String {
             done = true;
             let mut np = Vec::with_capacity(poss.len());
 
-            'i: for (idx, i) in poss.iter().enumerate() {
+            'i: for i in poss.iter() {
                 macro_rules! unknowns {
                     () => {
                         i.iter().filter(|a| matches!(a, Chunk::Unknown)).count()
@@ -52,7 +52,7 @@ pub fn part_1(file: &str) -> String {
                 }
 
                 let mut counts = s.1.clone();
-                'j: for (jdx, j) in i.iter().enumerate().rev() { // solving it reversly
+                for (jdx, j) in i.iter().enumerate().rev() {
                     match j {
                         Chunk::Known(i) => match counts.last_mut() {
                             Some(j) => if *j >= *i {
@@ -61,11 +61,6 @@ pub fn part_1(file: &str) -> String {
                             None => if unknowns!() == 0 { continue 'i; },
                         },
                         Chunk::Unknown => {
-                            // let j = match counts.last_mut() {
-                            //     Some(j) => j,
-                            //     None => continue 'i,
-                            // };
-                            // collapse into branches
                             let mut a = i.clone();
                             let mut b = i.clone();
                             a[jdx] = Chunk::Known(1);
@@ -84,9 +79,8 @@ pub fn part_1(file: &str) -> String {
                     }
                 }
 
-                match counts.last() {
-                    Some(0) => { counts.pop(); },
-                    _ => {},
+                if counts.last() == Some(&0) {
+                    counts.pop();
                 }
 
                 if counts.is_empty() || unknowns!() != 0 {
@@ -106,6 +100,7 @@ pub fn part_1(file: &str) -> String {
     sum.to_string()
 }
 
-pub fn part_2(file: &str) -> String {
+pub fn part_2(_file: &str) -> String {
+    // TODO: finish part 2
     todo!();
 }
