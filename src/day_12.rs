@@ -1,6 +1,6 @@
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 enum Chunk {
-    Known(usize), Unknown(usize), Seperater
+    Known(usize), Unknown, Seperater
 }
 
 pub fn part_1(file: &str) -> String {
@@ -22,16 +22,86 @@ pub fn part_1(file: &str) -> String {
                     _ => chunks.push(Chunk::Known(1)),
                 }
             } else if *i == b'?' {
-                let l = chunks.last_mut();
-                match l {
-                    Some(Chunk::Unknown(i)) => *i += 1,
-                    _ => chunks.push(Chunk::Unknown(1)),
-                }
+                chunks.push(Chunk::Unknown);
             } else if !matches!(chunks.last(), Some(Chunk::Seperater) | None) {
                 chunks.push(Chunk::Seperater);
             }
         }
-        println!("{chunks:?}");
+
+        let mut poss = vec![chunks];
+        let mut done = false;
+        while !done {
+            done = true;
+            let mut np = Vec::with_capacity(poss.len());
+
+            'i: for (idx, i) in poss.iter().enumerate() {
+                macro_rules! unknowns {
+                    () => {
+                        i.iter().filter(|a| matches!(a, Chunk::Unknown)).count()
+                    };
+                }
+
+                let mut i = i.clone();
+                i.dedup_by(|a, b| matches!(a, Chunk::Seperater) && matches!(b, Chunk::Seperater));
+                for j in (0..i.len()).rev() {
+                    if matches!(i[j], Chunk::Seperater) {
+                        i.remove(j);
+                    } else {
+                        break;
+                    }
+                }
+
+                let mut counts = s.1.clone();
+                'j: for (jdx, j) in i.iter().enumerate().rev() { // solving it reversly
+                    match j {
+                        Chunk::Known(i) => match counts.last_mut() {
+                            Some(j) => if *j >= *i {
+                                *j -= i;
+                            } else if unknowns!() == 0 { continue 'i; },
+                            None => if unknowns!() == 0 { continue 'i; },
+                        },
+                        Chunk::Unknown => {
+                            // let j = match counts.last_mut() {
+                            //     Some(j) => j,
+                            //     None => continue 'i,
+                            // };
+                            // collapse into branches
+                            let mut a = i.clone();
+                            let mut b = i.clone();
+                            a[jdx] = Chunk::Known(1);
+                            b[jdx] = Chunk::Seperater;
+                            np.push(a);
+                            np.push(b);
+                            done = false;
+                            continue 'i;
+                        },
+                        Chunk::Seperater => {
+                            match counts.last() {
+                                Some(0) => { counts.pop(); },
+                                _ => if unknowns!() == 0 { continue 'i; },
+                            }
+                        },
+                    }
+                }
+
+                match counts.last() {
+                    Some(0) => { counts.pop(); },
+                    _ => {},
+                }
+
+                if counts.is_empty() || unknowns!() != 0 {
+                    np.push(i.clone());
+                }
+
+                if unknowns!() != 0 {
+                    done = false;
+                }
+            }
+
+            poss = np;
+        }
+
+        sum += poss.len();
     }
     sum.to_string()
 }
