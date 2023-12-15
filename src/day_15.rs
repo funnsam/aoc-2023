@@ -10,11 +10,10 @@ fn hash(a: &str) -> u8 {
 }
 
 pub fn part_1(file: &str) -> String {
-    // litterally 2k^th place
-    let f = file.replace('\n', "");
-    let f = f.split(",");
     let mut t = 0;
-    for i in f {
+
+    let f = file.split_once("\n").unwrap_or((file, "")).0;
+    for i in f.split(",") {
         t += hash(i) as usize;
     }
 
@@ -22,11 +21,10 @@ pub fn part_1(file: &str) -> String {
 }
 
 pub fn part_2(file: &str) -> String {
-    let f = file.replace('\n', "");
-    let f = f.split(",");
     let mut boxes: Vec<Vec<(String, u8)>> = vec![Vec::with_capacity(10); 256];
 
-    'a: for i in f {
+    let f = file.split_once("\n").unwrap_or((file, "")).0;
+    'a: for i in f.split(",") {
         let l = i.split_once("=").unwrap_or((&i[..i.len()-1], "")).0;
         let h = hash(l);
         match i.as_bytes().last().unwrap() {
